@@ -1,0 +1,23 @@
+{
+  "name": "comicon",
+  "homepage": "https://github.com/feinorgh/comicon",
+  "authors": [
+    "Pär Karlsson <feinorgh@gmail.com>"
+  ],
+  "description": "Comic Constructor",
+  "main": "",
+  "keywords": [
+    "comics",
+    "demo",
+    "mojolicious"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/bower_components",
+    "test",
+    "tests"
+  ]
+}
