@@ -18,3 +18,5 @@ nytprof.out
 *.o
 *.bs
 /_eumm/
+/public/bower_components/
+/node_modules
