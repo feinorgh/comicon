@@ -1,0 +1,4 @@
+% layout 'default';
+<div class="container-fluid">
+    <h1>Hello, I am Comicon</h1>
+</div>
