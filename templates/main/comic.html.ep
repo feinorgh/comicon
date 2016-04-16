@@ -1,4 +1,10 @@
 % layout 'default';
+%= include 'nav/navbar';
 <div class="container-fluid">
+  <div class="jumbotron">
     <h1>Hello, I am Comicon</h1>
+  </div>
 </div>
+<%#
+  vim: ts=2 sw=2
+%>
