@@ -23,7 +23,8 @@
   "dependencies": {
     "angular-resource": "^1.5.3",
     "bootstrap": "^3.3.6",
-    "angular": "^1.5.4"
+    "angular": "^1.5.4",
+    "jquery-ui": "^1.11.4"
   },
   "resolutions": {
     "angular": "1.5.3"

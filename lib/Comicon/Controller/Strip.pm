@@ -15,8 +15,9 @@ use Readonly;
 
 use autouse 'Data::Dump' => qw(dd pp);
 
-Readonly my $DEFAULT_TIMEOUT => 10;
-Readonly my %RE => (
+Readonly my $DEFAULT_TIMEOUT => 10; # seconds
+Readonly my $DEFAULT_MINJUMP => 5;  # at least these many frames between each
+Readonly my %RE              => (
     duration => qr{
         length:\s+(?<frames>\d+)\sframes,
         .*?duration.*?
@@ -41,6 +42,7 @@ my %program = (
     },
 );
 
+
 # this action builds a series of frames to use in a comic strip
 # and returns the information regarding each frame in a JSON
 # structure according to http://jsonapi.org/
@@ -51,7 +53,9 @@ sub get_frames {
     # 3 frames, sometimes 2 or 4 frames and very seldom 1 or 5 frames
     # if the user has supplied a number of frames via a parameter, we
     # use that number instead
-    my $framecount = $self->param('frames') || int random_normal( 1, 3.5, 0.42 );
+    my $framecount =
+      $self->param('frames') || int random_normal( 1, 3.5, 0.42 );
+    my $texts     = $self->get_texts($framecount);
     my $moviefile = $self->get_movie();
 
     my @command;
@@ -65,21 +69,21 @@ sub get_frames {
     }
     $self->app->log->debug("Getting movie data for '$moviefile':");
     my ( $in, $out, $err );
-    $self->app->log->debug('Running \'' . join(q{ }, @command) . q{'.} );
+    $self->app->log->debug( 'Running \'' . join( q{ }, @command ) . q{'.} );
     run \@command, \$in, \$out, \$err, timeout($DEFAULT_TIMEOUT);
 
     my $seconds;
 
-    my $now   = DateTime->now( time_zone => 'UTC' );
+    my $now = DateTime->now( time_zone => 'UTC' );
     if ( $out =~ $RE{duration} ) {
-        my %m = %LAST_PAREN_MATCH;
+        my %m        = %LAST_PAREN_MATCH;
         my $duration = DateTime::Duration->new(
             hours   => $m{hours},
             minutes => $m{minutes},
             seconds => $m{seconds},
         );
         my $later = $now->clone->add_duration($duration);
-        $seconds  = $later->subtract_datetime_absolute($now)->seconds;
+        $seconds = $later->subtract_datetime_absolute($now)->seconds;
         $self->app->log->debug("Duration: $seconds seconds");
     }
     else {
@@ -91,10 +95,9 @@ sub get_frames {
 
     # begin by selecting a random frame and build a one-member array
     my @frames = ( int random_uniform( 1, 0, $seconds ) );
-    my $current_frame  = $frames[0];
+    my $current_frame = $frames[0];
     while ( @frames < $framecount ) {
-        push @frames,
-          int( $current_frame + ( random_uniform() * $delta ) );
+        push @frames, int( $current_frame + ( random_uniform() * $delta ) + $DEFAULT_MINJUMP );
 
         # let the current frame be the last one in the array
         $current_frame = $frames[-1];
@@ -108,8 +111,7 @@ sub get_frames {
     # determine the width of each frame
     my $imagewidth =
       ( $imagesize[0] - $padding - $framecount * $padding ) / $framecount;
-    my $imageheight =
-      ( $imagesize[1] - $padding * 2 );
+    my $imageheight = ( $imagesize[1] - $padding * 2 );
     my $imageaspect = $imagewidth / $imageheight;
     my $strip       = Image::Magick->new( size => join( q{x}, @imagesize ) );
     $strip->ReadImage('canvas:black');
@@ -125,9 +127,9 @@ $program{mplayer}{exe} -really-quiet -ao null -frames 1 -msglevel all=1 -vo png:
 _TEXT_
         my @cmd = split m/\s/msx, $command;
         push @cmd, $moviefile;
-        $self->app->log->debug('Running: \'' . join(q{ }, @cmd) . q{'});
+        $self->app->log->debug( 'Running: \'' . join( q{ }, @cmd ) . q{'} );
         run \@cmd, \$in, \$out, \$err, timeout($DEFAULT_TIMEOUT);
-        my $img = Image::Magick->new;
+        my $img      = Image::Magick->new;
         my $filename = $mplayerfile->stringify;
         my $x        = $img->Read($filename);
         if ($x) {
@@ -136,9 +138,9 @@ _TEXT_
         my $imgwidth  = $img->Get('width');
         my $imgheight = $img->Get('height');
         my $origratio = $imgwidth / $imgheight;
-        if (!$ratio) {
-            my $w = $img->Get('width');
-            my $h = $img->Get('height');
+        if ( !$ratio ) {
+            my $w      = $img->Get('width');
+            my $h      = $img->Get('height');
             my $aspect = $w / $h;
             if ( $imageaspect > $aspect ) {
                 $ratio = $stripsize[0] / $w;
@@ -147,18 +149,17 @@ _TEXT_
                 $ratio = $stripsize[1] / $h;
             }
         }
-        my $newsize = join q{x},
-          ( $imgwidth * $ratio, $imgheight * $ratio );
+        my $newsize = join q{x}, ( $imgwidth * $ratio, $imgheight * $ratio );
         $x = $img->AdaptiveResize( geometry => $newsize, filter => 'Lanczos' );
         if ($x) {
             $self->app->log->error("Image::Magick error '$x'");
         }
-        $imgwidth = $img->get('width');
+        $imgwidth  = $img->get('width');
         $imgheight = $img->get('height');
         if ( $imgwidth > $imagewidth || $imgheight > $imageheight ) {
             $x = $img->Crop(
-                width => $imagewidth,
-                height => $imageheight,
+                width   => $imagewidth,
+                height  => $imageheight,
                 gravity => 'Center',
             );
             if ($x) {
@@ -166,7 +167,7 @@ _TEXT_
             }
         }
         $x = $strip->Composite(
-            image => $img,
+            image   => $img,
             compose => 'Over',
             x       => $coords[0],
             y       => $coords[1],
@@ -185,15 +186,17 @@ _TEXT_
         $self->app->log->error("Image::Magick error '$x'");
     }
 
-    $self->render( json => {
+    $self->render(
+        json => {
             data => {
-                movie => $moviefile,
-                in    => $in,
-                out   => $out,
-                err   => $err,
+                movie    => $moviefile,
+                in       => $in,
+                out      => $out,
+                err      => $err,
                 duration => $seconds,
                 image    => $self->url_for($outname),
                 frames   => scalar @frames,
+                texts    => $texts,
             },
         },
     );
@@ -203,12 +206,11 @@ _TEXT_
 # returns a random movie filename from a directory of movies
 sub get_movie {
     my $self = shift;
-    my $video_dir = dir($self->app->config('data_dir'), 'videos');
+    my $video_dir = dir( $self->app->config('data_dir'), 'videos' );
     $self->app->log->debug("Looking for videos in '$video_dir'");
     my @files =
-      File::Find::Rule->file()->name($RE{moviefile})
-      ->in( "$video_dir" );
-    $self->app->log->debug('Found ' . @files . ' videos.');
+      File::Find::Rule->file()->name( $RE{moviefile} )->in("$video_dir");
+    $self->app->log->debug( 'Found ' . @files . ' videos.' );
     return $files[ int rand @files ];
 }
 

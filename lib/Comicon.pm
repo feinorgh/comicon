@@ -12,6 +12,19 @@ sub startup {
 
     my $config = $self->plugin('Config');
 
+    # get the Comic text plugin too
+    $self->plugin('Comicon::Text');
+
+    if ( $self->app->mode eq 'production' ) {
+        $self->app->hook(
+            before_dispatch => sub {
+                my $c = shift;
+                push @{ $c->req->url->base->path->trailing_slash(1) },
+                  shift @{ $c->req->url->path->leading_slash(0) };
+            }
+        );
+    }
+
     # Router
     my $r = $self->routes;
 
