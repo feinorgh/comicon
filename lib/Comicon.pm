@@ -5,17 +5,23 @@ use Mojo::Base 'Mojolicious';
 sub startup {
     my $self = shift;
 
-    $self->secrets(['55128abf-2abf-44de-92fc-0d1634d4f70b']);
+    $self->secrets( ['55128abf-2abf-44de-92fc-0d1634d4f70b'] );
 
     # Documentation browser under "/perldoc"
     $self->plugin('PODRenderer');
+
+    my $config = $self->plugin('Config');
 
     # Router
     my $r = $self->routes;
 
     # Normal route to controller
-    $r->get(q{/})->to('main#comic');
-    $r->post('/new')->to('image#generate');
+    $r->get('/')->to('main#comic');
+    $r->get('/archive')->to('archive#view');
+    $r->get('/help')->to('main#help');
+    $r->get('/strip')->to('strip#get_frames');
+    # $r->get('/strip')->to('image#generate');
+    # $r->post('/strip/#id')->to('image#save');
     return 1;
 }
 
@@ -36,7 +42,7 @@ This is version 3.
 =head1 SYNOPSIS
 
 This application renders comic strips with random images and random text, for
-an emotional impact.
+(hopefully) an emotional or humorous effect.
 
 =head1 DESCRIPTION
 
@@ -44,7 +50,27 @@ This application is built as a L<Mojolicious> application.
 
 =head1 SUBROUTINES/METHODS
 
-TBD
+=over 2
+
+=item startup()
+
+Runs once at server start up, and initializes the application.
+
+=back
+
+=head1 MODULES/CONTROLLERS
+
+=over 2
+
+=item L<Comicon::Controller::Main>
+
+The main controller for the application.
+
+=item L<Comicon::Controller::Archive>
+
+The controller for the archived comic strips.
+
+=back
 
 =head1 DIAGNOSTICS
 
@@ -60,6 +86,8 @@ TBD
 =over
 
 =item L<Image::Magick>
+
+=item L<Math::Random>
 
 =back
 

@@ -12,9 +12,10 @@
 
     <div class="collapse navbar-collapse" id="main-menu">
       <ul class="nav navbar-nav">
-        <li><a href="#">Main <span class="sr-only">(current)</span></a></li>
-        <li><%= link_to 'API Doc' => url_for 'perldoc' %></li>
-        <li><%= link_to 'Archive' => url_for 'archive' %></li>
+        <li><a href="<%= url_for q{/} %>">Main <span class="sr-only">(current)</span></a></li>
+        <li><%= link_to 'Archive'           => url_for 'archive' %></li>
+        <li><%= link_to 'Help'              => url_for 'help' %></li>
+        <li><%= link_to 'API Documentation' => url_for 'perldoc/Comicon' %></li>
       </ul>
     </div>
   </div>

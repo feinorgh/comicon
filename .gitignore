@@ -20,3 +20,5 @@ nytprof.out
 /_eumm/
 /public/components/
 /node_modules
+/log/*.log
+*.swp

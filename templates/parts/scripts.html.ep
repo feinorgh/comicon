@@ -1,6 +1,10 @@
 <script src="components/jquery/dist/jquery<%= $min %>.js"></script>
 <script src="components/bootstrap/dist/js/bootstrap<%= $min %>.js"></script>
 <script src="components/angular/angular<%= $min %>.js"></script>
+<script src="components/angular-resource/angular-resource<%= $min %>.js"></script>
+<script src="<%= url_for 'js/app.js' %>"></script>
+<script src="<%= url_for 'js/controllers.js' %>"></script>
+<script src="<%= url_for 'js/services.js' %>"></script>
 <%#
   vim: ts=2 sw=2
 %>

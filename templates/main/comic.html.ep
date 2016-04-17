@@ -1,8 +1,15 @@
 % layout 'default';
 %= include 'nav/navbar';
-<div class="container-fluid">
+<div class="container-fluid" ng-app="ccApp" ng-strict-di ng-controller="ComicGeneratorController">
   <div class="jumbotron">
     <h1>Hello, I am Comicon</h1>
+    <p><%= $msg %></p>
+    <p>{{greeting}}</p>
+  </div>
+  <div class="text-center">
+    <button type="button" id="get_new_button" class="btn btn-primary" ng-click="getNewStrip()">
+      Get new strip
+    </button>
   </div>
 </div>
 <%#
