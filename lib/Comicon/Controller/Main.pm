@@ -31,3 +31,5 @@ The comic action renders the default comic strip view
 This method displays the user help page.
 
 =back
+
+Go back to L<Comicon>

@@ -46,16 +46,20 @@ __END__
 
 =head1 NAME
 
-Comicon - Comic Constructor.
+L<Comicon|..> - B<Comi>c B<Con>structor.
 
 =head1 VERSION
 
-This is version 3.
+This is version 3, built from the ashes of two earlier incarnations.
 
 =head1 SYNOPSIS
 
 This application renders comic strips with random images and random text, for
 (hopefully) an emotional or humorous effect.
+
+It is intended mostly as a demonstration for using
+L<Mojolicious|http://mojolicio.us>, L<bootstrap|http://getbootstrap.com/> and
+L<AngularJS|https://angularjs.org/> in one and the same web application.
 
 =head1 DESCRIPTION
 
@@ -83,6 +87,10 @@ The main controller for the application.
 
 The controller for the archived comic strips.
 
+=item L<Comicon::Text>
+
+A class for generating suitable text for the comic strips.
+
 =back
 
 =head1 DIAGNOSTICS
@@ -92,7 +100,8 @@ the mode you are running the application in.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-TBD
+The application is configured from one file in the root directory of the
+distribution, C<comicon.conf>.
 
 =head1 DEPENDENCIES
 
@@ -100,7 +109,18 @@ TBD
 
 =item L<Image::Magick>
 
+Image::Magick is needed for the image manipulation routines. It should be
+included with the operating system of your choice, or you can compile it
+yourself from the sources. Make sure you install the Perl bindings for the
+ImageMagick package for your Perl environment.
+
+See L<http://www.imagemagick.org/>
+
 =item L<Math::Random>
+
+This is a Perl port of the C randlib library.
+
+See L<Math::Random|https://metacpan.org/pod/Math::Random> for details.
 
 =back
 

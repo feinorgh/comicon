@@ -42,3 +42,5 @@ This method is required to register as a plugin to Mojolicious
 This method returns an array of size $count with texts.
 
 =back
+
+Go back to L<Comicon>

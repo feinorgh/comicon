@@ -234,3 +234,5 @@ Gets data in JSON format for a constructed comic strip image.
 
 =back
 
+Go back to L<Comicon>
+

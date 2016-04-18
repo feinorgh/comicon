@@ -18,3 +18,5 @@ __END__
 This action renders the main archive view.
 
 =back
+
+Go back to L<Comicon>
