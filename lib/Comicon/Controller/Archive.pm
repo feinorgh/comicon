@@ -1,9 +1,12 @@
 package Comicon::Controller::Archive;
 use Mojo::Base 'Mojolicious::Controller';
 
+use autouse 'Data::Dump' => qw(dd pp);
+
 sub view {
     my $self = shift;
-    $self->render;
+    my $images = $self->app->home->list_files('public/comics/');
+    $self->render( images => $images );
     return 1;
 }
 

@@ -3,27 +3,20 @@
 <div class="container-fluid">
   <div id="archive-carousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-target="#archive-carousel" data-slide-to="0" class="active"></li>
-      <li data-target="#archive-carousel" data-slide-to="1"></li>
-      <li data-target="#archive-carousel" data-slide-to="2"></li>
+      % my $l = scalar @{ $images };
+      % for my $n ( 0 .. $l ) {
+      <li data-target="#archive-carousel" data-slide-to="0" <%= $n == 0 ? 'class="active"' : q{} %>></li>
+      % }
     </ol>
 
     <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <img src="<%= url_for 'images/november.jpg' %>" alt="november.jpg">
-        <div class="carousel-caption">
-          <h3>An Image</h3>
-        </div>
+      % my $n = 0;
+      % for my $image ( @{ $images } ) {
+      <div class="item <%= $n == 0 ? 'active' : q{} %>">
+        <img src="<%= url_for "/comics/$image" %>" alt="<%= $image %>">
       </div>
-      <div class="item">
-        <img src="<%= url_for 'images/picjumbo.com_IMG_9998.jpg' %>" alt="another image">
-        <div class="carousel-caption">
-          <h3>Another Image</h3>
-        </div>
-      </div>
-      <div class="item">
-        <img src="<%= url_for 'images/picjumbo.com_DSC_3274.jpg' %>" alt="yet another image">
-      </div>
+      %   $n++;
+      % }
     </div>
 
     <a class="left carousel-control" href="#archive-carousel" role="button" data-slide="prev">
