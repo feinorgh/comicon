@@ -6,13 +6,60 @@ use base 'Mojolicious::Plugin';
 
 our $VERSION = 1.00;
 
+sub get_adverb {
+    my @adverbs = qw(
+        obviously sadly happily gloriously surprisingly
+    );
+    return $adverbs[int rand @adverbs];
+}
+
+sub get_start {
+    my @starts = (
+        'So there I was',
+        'This day started like any other',
+        'Monday morning...',
+    );
+    return $starts[int rand @starts];
+}
+
+sub get_middle {
+    my @middles = (
+        'One night to be confused',
+        'Both under influence',
+        'To know what to say',
+        'Would it be good enough?',
+        'But the law is the law',
+        'Just standing there',
+        'Looking sharp',
+    );
+    return $middles[int rand @middles];
+}
+
+sub get_ending {
+    my @endings = (
+        'But, ' . get_adverb() . ', they didn\'t fall for that.',
+        'Well, I should have known better.',
+        'Maybe next time.',
+        'I guess they called the bluff.',
+    );
+    return $endings[int rand @endings];
+}
+
 # this function generates an array with texts containing as many members
 # as is given by framecount
 sub get_texts {
     my ( $self, $framecount ) = @_;
     my @texts;
     for my $frame ( 1 .. $framecount ) {
-        push @texts, "This is frame $frame";
+        if ( $frame == 1 ) {
+            push @texts, get_start();
+        }
+        elsif ( $frame == $framecount ) {
+            push @texts, get_ending();
+        }
+        else {
+            push @texts, get_middle();
+        }
     }
     return \@texts;
 }
