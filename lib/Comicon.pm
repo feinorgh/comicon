@@ -29,17 +29,17 @@ sub startup {
     my $r = $self->routes;
 
     # Normal route to controller
-    $r->get(q{/} => sub {
+    $r->get(
+        q{/} => sub {
             my $self = shift;
             $self->redirect_to(q{/comic});
             return 1;
-    });
+        }
+    );
     $r->get('/comic')->to('main#comic');
     $r->get('/archive')->to('archive#view');
     $r->get('/help')->to('main#help');
     $r->get('/strip')->to('strip#get_frames');
-    # $r->get('/strip')->to('image#generate');
-    # $r->post('/strip/#id')->to('image#save');
     return 1;
 }
 
@@ -50,6 +50,8 @@ __END__
 =encoding utf8
 
 =head1 NAME
+
+Comicon
 
 L<Comicon|..> - B<Comi>c B<Con>structor.
 
@@ -68,7 +70,11 @@ L<AngularJS|https://angularjs.org/> in one and the same web application.
 
 =head1 DESCRIPTION
 
-This application is built as a L<Mojolicious> application.
+This application is built as a L<Mojolicious> application. It is only meant
+as a demo for building a web application with Mojolicious, AngularJS and
+bootstrap.
+
+The videos included in this demo are all taken from Archive.org (L<https://archive.org/>) and are in the public domain.
 
 =head1 SUBROUTINES/METHODS
 
@@ -108,9 +114,25 @@ the mode you are running the application in.
 The application is configured from one file in the root directory of the
 distribution, C<comicon.conf>.
 
+=over 2
+
+=item C<data_dir = app-E<gt>home-E<gt>rel_dir('data')>
+
+The C<$data_dir/video> directory is where the application looks for movie files.
+
+=item C<font>
+
+This configuration item is currenly not used (it's a hashref, describing a
+TrueType (tm) name and a font size).
+
+=back
+
+Currently you can set the data directory where the material for the frames
+reside.
+
 =head1 DEPENDENCIES
 
-=over
+=over 2
 
 =item L<Image::Magick>
 
@@ -135,7 +157,21 @@ None known.
 
 =head1 BUGS AND LIMITATIONS
 
-Several. (TBD).
+=over 2
+
+=item No serialization
+
+Currently the comic texts are not serialized with the images
+
+=item Wacky text positioning
+
+Depending on your window size, text frames may end up outside the image area.
+
+=item Whoa, boring!
+
+The texts are, frankly, not that creative or smart.
+
+=back
 
 =head1 AUTHOR
 

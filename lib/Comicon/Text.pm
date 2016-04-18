@@ -92,7 +92,7 @@ This method is required to register as a plugin to Mojolicious
 
 =item get_texts( $count )
 
-This method returns an array of size $count with texts.
+This method returns an array of size $count with random texts.
 
 =back
 

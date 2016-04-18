@@ -4,6 +4,9 @@
   <h1>Comicon - Comic Strip Constructor</h1>
   <p>This is a web demo to show how <a href="http://mojolicio.us">Mojolicious</a>, <a href="http://angularjs.org">AngularJS</a> and <a href="http://getbootstrap.com">bootstrap</a> can work together.</a></p>
   <p>Obviously, this is somewhat bare bones right now. Support will be added for saving the layout of comics, more interesting text generation, and support for all kinds of effects and editing of texts too.</p>
+  <p>The source is available at <a href="https://github.com/feinorgh/comicon">https://github.com/feinorgh/comicon</a>.</p>
+  <hr>
+  <p>Written by Pär Karlsson, feinorgh [at] gmail [dot] com</p>
 </div>
 <%#
  vim: ts=2 sw=2
