@@ -29,7 +29,12 @@ sub startup {
     my $r = $self->routes;
 
     # Normal route to controller
-    $r->get('/')->to('main#comic');
+    $r->get(q{/} => sub {
+            my $self = shift;
+            $self->redirect_to(q{/comic});
+            return 1;
+    });
+    $r->get('/comic')->to('main#comic');
     $r->get('/archive')->to('archive#view');
     $r->get('/help')->to('main#help');
     $r->get('/strip')->to('strip#get_frames');

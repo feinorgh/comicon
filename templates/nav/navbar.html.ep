@@ -15,7 +15,7 @@
         <li><a href="<%= url_for q{/} %>">Main <span class="sr-only">(current)</span></a></li>
         <li><%= link_to 'Archive'           => url_for 'archive' %></li>
         <li><%= link_to 'Help'              => url_for 'help' %></li>
-        <li><%= link_to 'API Documentation' => url_for 'perldoc/Comicon' %></li>
+        <li><%= link_to 'API Documentation' => '/perldoc/Comicon' %></li>
       </ul>
     </div>
   </div>

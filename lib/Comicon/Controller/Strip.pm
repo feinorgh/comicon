@@ -194,7 +194,7 @@ _TEXT_
                 out      => $out,
                 err      => $err,
                 duration => $seconds,
-                image    => $self->url_for($outname),
+                image    => q{/} . $self->url_for($outname),
                 frames   => scalar @frames,
                 texts    => $texts,
             },
