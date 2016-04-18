@@ -18,6 +18,8 @@ sub get_start {
         'So there I was',
         'This day started like any other',
         'Monday morning...',
+        'Here I am',
+        'Such an awesome thing',
     );
     return $starts[int rand @starts];
 }
@@ -25,12 +27,14 @@ sub get_start {
 sub get_middle {
     my @middles = (
         'One night to be confused',
-        'Both under influence',
+        'Under the influence',
         'To know what to say',
         'Would it be good enough?',
         'But the law is the law',
         'Just standing there',
         'Looking sharp',
+        'A silver lining',
+        'I thought I knew what I was missing',
     );
     return $middles[int rand @middles];
 }
@@ -41,6 +45,8 @@ sub get_ending {
         'Well, I should have known better.',
         'Maybe next time.',
         'I guess they called the bluff.',
+        'Sometimes everything just seems black and white.',
+        'Is this really it?',
     );
     return $endings[int rand @endings];
 }
