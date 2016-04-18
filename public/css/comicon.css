@@ -1,0 +1,19 @@
+div.comicframe {
+    height: 300px;
+}
+
+div#text-overlay {
+    height : 0;
+    position : relative;
+}
+
+div.textbox {
+    background : white;
+    color : black;
+    padding : 0.1em 0.2em;
+    margin : 0;
+    border : 1px solid black;
+    display : inline-block;
+    font-family : Droid Sans, sans-serif;
+    font-size : 12px;
+}

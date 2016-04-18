@@ -1,12 +1,11 @@
 % layout 'default';
 %= include 'nav/navbar';
 <div class="container-fluid" ng-app="ccApp" ng-strict-di ng-controller="ComicGeneratorController">
-  <div id="magic" class="text-center">
-    <div class="comicframe">
-      <img ng-src="{{comicstrip.data.image}}">
-    </div>
+  <div id="magic" class="text-center comicframe">
+    <img ng-src="{{comicstrip.data.image}}">
   </div>
-  <div id="text-overlay"></div>
+  <div id="texts">
+  </div>
   <hr>
   <div class="text-center">
     <button type="button" id="get_new_button" class="btn btn-primary" ng-click="getNewStrip()">Get new strip</button>
