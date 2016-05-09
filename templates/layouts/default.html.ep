@@ -10,9 +10,7 @@
     <meta name="author" content="Pär Karlsson <feinorgh [at] gmail [dot] com>">
     <title><%= title %></title>
 
-    <link href="components/bootstrap/dist/css/bootstrap<%= $min %>.css"
-      rel="stylesheet">
-    <link href="css/comicon.css" rel="stylesheet">
+    <%= include 'parts/styles', min => $min %>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media
       queries.

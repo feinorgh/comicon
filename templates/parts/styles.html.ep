@@ -1,0 +1,5 @@
+<link href="/<%= url_for 'components/bootstrap/dist/css/bootstrap' . $min. '.css' %>" rel="stylesheet">
+<link href="/<%= url_for 'css/comicon.css' %>" rel="stylesheet">
+<%#
+vim: ts=2 sw=2
+%>

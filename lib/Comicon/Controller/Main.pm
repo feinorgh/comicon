@@ -5,7 +5,24 @@ use utf8;
 # This action renders the default comic view
 sub comic {
     my $self = shift;
+    my $id   = $self->param('id');
+    $self->app->log->debug("Showing comic id '$id'");
     $self->render( msg => $self->app->config('data_dir') );
+    return 1;
+}
+
+sub save {
+    my $self = shift;
+    my $id   = $self->param('id');
+    $self->app->log->debug("Saving comic id '$id'");
+    my $comic_rs = $self->app->db;
+    my $data = {
+        data => [
+            type => 'comic',
+            id   => 1,
+        ]
+    };
+    $self->render( json => $data );
     return 1;
 }
 

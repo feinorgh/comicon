@@ -36,6 +36,8 @@ comiconServices.factory('ComicText', [
                                     var abs_y    = topleft.top - imagepos.top;
                                     var abs_x    = topleft.left - imagepos.left;
                                     console.log({ top : abs_x, left : abs_y });
+
+
                                 },
                                 containment : 'div#magic'
                             });

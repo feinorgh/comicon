@@ -186,6 +186,23 @@ _TEXT_
         $self->app->log->error("Image::Magick error '$x'");
     }
 
+    my $db = $self->app->db;
+
+    my $comic = $db->resultset('Comic')->create(
+        {
+            filename   => $outname,
+            createtime => $now,
+        }
+    );
+    for my $text ( @{ $texts } ) {
+        $comic->add_to_frames(
+            {
+                text        => $text,
+                coordinates => q{},
+            }
+        );
+    }
+
     $self->render(
         json => {
             data => {

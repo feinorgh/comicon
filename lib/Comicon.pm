@@ -1,5 +1,41 @@
 package Comicon;
 use Mojo::Base 'Mojolicious';
+use English qw(-no_match_vars);
+use Comicon::Schema;
+use aliased 'DBIx::Class::DeploymentHandler' => 'DH';
+
+my $_db;
+
+has db => sub {
+    my $self = shift;
+    if (!defined $_db) {
+        my $config = $self->plugin('Config');
+        $self->app->log->debug("Connecting to $config->{database}{dsn}...");
+        $_db = Comicon::Schema->connect(
+            $config->{database}{dsn},
+            $config->{database}{username},
+            $config->{database}{password},
+            $config->{database}{dbi_attr},
+        ) or $self->app->log->error("Could not connect to database: $ERRNO");
+        my $dh = DH->new(
+            {
+                schema => $_db,
+                force_overwrite => 1,
+                sql_translator_args => { add_drop_table => 0 },
+            }
+        );
+        if ( $dh->version_storage_is_installed ) {
+            $dh->prepare_deploy;
+            $dh->prepare_upgrade;
+            $dh->upgrade;
+        }
+        else {
+            $dh->prepare_install;
+            $dh->install;
+        }
+    }
+    return $_db;
+};
 
 # This method will run once at server start
 sub startup {
@@ -37,6 +73,8 @@ sub startup {
         }
     );
     $r->get('/comic')->to('main#comic');
+    $r->get('/comic/#id')->to('main#comic');
+    $r->post('/comic/#id')->to('main#save');
     $r->get('/archive')->to('archive#view');
     $r->get('/help')->to('main#help');
     $r->get('/strip')->to('strip#get_frames');
